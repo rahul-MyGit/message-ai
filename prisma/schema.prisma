@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,53 +8,146 @@ datasource db {
 }
 
 model User {
-  id        String  @id @default(cuid())
-  email     String  @unique
-  firstname String? @unique
-  lastname  String? @unique
+  id               String         @id @default(uuid())
+  name             String
+  email            String         @unique
+  emailVerified    DateTime?   @map("email_verified")
+  image            String?
+  password         String?
+  subscription     Subscription?
+  integrations     Integrations[]
+  automations      Automation[]
+  accounts         Account[]
+  sessions         Session[]
 
+   createdAt    DateTime       @default(now())
+   updatedAt    DateTime       @updatedAt
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+ 
   createdAt DateTime @default(now())
-
-  subscription Subscription?
-  automation   Automation[]
-  integrations Integrations[]
-
+  updatedAt DateTime @updatedAt
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@id([provider, providerAccountId])
+}
+ 
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Subscription {
-  id     String  @id @default(cuid())
-  userId String? @unique
-  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String            @id @default(uuid())
+  User       User?             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String?           @unique
+  plan       SUBSCRIPTION_PLAN @default(FREE)
+  customerId String?           @unique
 
-  plan       SUBSCRIPTION @default(FREE)
-  customerId String?      @unique
-
-  createAt  DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Automation {
-  id     String  @id @default(cuid())
-  name   String  @default("untitled")
-  active Boolean @default(false)
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
   
-  createdAt DateTime @default(now())
 }
 
 model Integrations {
-  id          String       @id @default(cuid())
+  id          String       @id @default(uuid())
   name        INTEGRATIONS @default(INSTAGRAM)
-  createdAt   DateTime     @default(now())
-  userId      String?      @unique
-  user        User?        @relation(fields: [userId], references: [id])
-  token       String
+  User        User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String?      
+  token       String       @unique
   expiresAt   DateTime?
   instagramId String?      @unique
-  twitterId   String?      @unique
+  
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Automation {
+  id        String    @id @default(cuid()) 
+  name      String    @default("Untitled")
+  active    Boolean   @default(false)
+  trigger   Trigger[]
+  listener  Listener?
+  posts     Post[]
+  dms       Dms[]
+  User      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String?   
+  keywords  Keyword[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Dms {
+  id           String      @id @default(cuid()) 
+  Automation   Automation? @relation(fields: [automationId], references: [id])
+  automationId String?     
+  senderId     String?
+  reciever     String?
+  message      String?
+
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model Post {
+  id           String      @id @default(cuid()) 
+  postid       String
+  caption      String?
+  media        String
+  mediaType    MEDIATYPE   @default(IMAGE)
+  Automation   Automation? @relation(fields: [automationId], references: [id], onDelete: Cascade)
+  automationId String?     
+}
+
+model Listener {
+  id           String     @id @default(cuid()) 
+  Automation   Automation @relation(fields: [automationId], references: [id], onDelete: Cascade)
+  automationId String     @unique 
+  listener     LISTENERS  @default(MESSAGE)
+  prompt       String
+  commentReply String?
+  dmCount      Int        @default(0)
+  commentCount Int        @default(0)
+}
+
+model Trigger {
+  id           String      @id @default(cuid()) 
+  type         String
+  Automation   Automation? @relation(fields: [automationId], references: [id], onDelete: Cascade)
+  automationId String?     
+}
+
+model Keyword {
+  id           String      @id @default(cuid()) 
+  word         String
+  Automation   Automation? @relation(fields: [automationId], references: [id], onDelete: Cascade)
+  automationId String?     
+
+  @@unique([automationId, word]) 
+}
+
+enum SUBSCRIPTION_PLAN {
+  PRO
+  FREE
 }
 
 enum INTEGRATIONS {
@@ -68,7 +155,13 @@ enum INTEGRATIONS {
   TWITTER
 }
 
-enum SUBSCRIPTION {
-  PRO
-  FREE
+enum MEDIATYPE {
+  IMAGE
+  VIDEO
+  CAROSEL_ALBUM
+}
+
+enum LISTENERS {
+  SMARTAI
+  MESSAGE
 }
