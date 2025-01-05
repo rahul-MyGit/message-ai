@@ -96,9 +96,11 @@ export default function LandingPage() {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="space-x-4"
               >
+                <Link href="/dashboard">
                 <Button className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5">
                   Get Started
                 </Button>
+                </Link>
                 <Button variant="outline" className="border-indigo-600 text-indigo-600 hover:bg-indigo-50 dark:border-indigo-400 dark:text-indigo-400 dark:hover:bg-indigo-950 transition-all duration-300 hover:-translate-y-0.5">
                   Learn More
                 </Button>
@@ -343,4 +345,3 @@ export default function LandingPage() {
     </div>
   );
 }
-

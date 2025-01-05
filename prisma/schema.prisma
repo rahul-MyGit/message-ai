@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String  @id @default(cuid())
+  email     String  @unique
+  firstname String? @unique
+  lastname  String? @unique
+
+  createdAt DateTime @default(now())
+
+  subscription Subscription?
+  automation   Automation[]
+  integrations Integrations[]
+
+  updatedAt DateTime @updatedAt
+}
+
+model Subscription {
+  id     String  @id @default(cuid())
+  userId String? @unique
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  plan       SUBSCRIPTION @default(FREE)
+  customerId String?      @unique
+
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Automation {
+  id     String  @id @default(cuid())
+  name   String  @default("untitled")
+  active Boolean @default(false)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+  
+  createdAt DateTime @default(now())
+}
+
+model Integrations {
+  id          String       @id @default(cuid())
+  name        INTEGRATIONS @default(INSTAGRAM)
+  createdAt   DateTime     @default(now())
+  userId      String?      @unique
+  user        User?        @relation(fields: [userId], references: [id])
+  token       String
+  expiresAt   DateTime?
+  instagramId String?      @unique
+  twitterId   String?      @unique
+}
+
+enum INTEGRATIONS {
+  INSTAGRAM
+  TWITTER
+}
+
+enum SUBSCRIPTION {
+  PRO
+  FREE
+}
