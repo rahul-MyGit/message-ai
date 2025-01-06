@@ -27,6 +27,7 @@ import { GitHubLogoIcon, GlobeIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import {toast} from "sonner";
 
 export default function SignIn() {
   const params = useSearchParams();
@@ -60,9 +61,16 @@ export default function SignIn() {
   const onSubmit = async (values: z.infer<typeof signInSchema>) => {
     try {
       const res = await handleCredentialsSignin(values);
-      if (res) setGlobalError(res?.message);
+      if (!res.success) {
+        setGlobalError(res?.message)
+      };
+      
+      toast(res.message);
+      router.refresh();
+      router.push('/');
     } catch (error) {
       console.log(error);
+      setGlobalError("An unexpected error occured")
     }
   };
 
@@ -195,7 +203,7 @@ export default function SignIn() {
 
           <div className="text-center text-sm font-medium mt-6">
             <span className="text-gray-600">Not signed up? </span>
-            <Link href="/auth/signup" className="text-purple-600 hover:text-purple-700 transition duration-200 ease-in-out">
+            <Link href="/signup" className="text-purple-600 hover:text-purple-700 transition duration-200 ease-in-out">
               Sign up
             </Link>
           </div>

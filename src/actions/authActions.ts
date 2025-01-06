@@ -11,7 +11,17 @@ export async function handleCredentialsSignin({email, password} : {
     password: string
 }){
     try {
-        await signIn("credentials", {email, password, redirectTo: "/"})
+        const res = await signIn("credentials", {email, password, redirect: false})
+        if(res?.error){
+            return {
+                success: false,
+                message: "Invalid credentials"
+            }
+        }
+        return {
+            success: true,
+            message: "Logged In"
+        }
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {

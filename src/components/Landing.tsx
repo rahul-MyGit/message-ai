@@ -6,9 +6,16 @@ import { Input } from "@/components/ui/input";
 import { MessageCircle, Tag, Repeat, Brain, Star, Sun, Moon } from 'lucide-react';
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
 export default function LandingPage() {
   const [darkMode, setDarkMode] = useState(false);
+
+  const {data: session} = useSession();
+
+  const router = useRouter();
 
   useEffect(() => {
     const observerOptions = {
@@ -62,7 +69,8 @@ export default function LandingPage() {
             </Link>
           ))}
         </nav>
-        <Button variant="ghost" className='ml-4'> Login </Button>
+        { session &&  <Button variant="ghost" className='ml-4' onClick={() => signOut()}> Logout </Button>}
+        {!session && <Button variant="ghost" className='ml-4' onClick={() => router.push("/signin")}> Login </Button>}
         <Button
           variant="ghost"
           size="icon"
@@ -97,7 +105,7 @@ export default function LandingPage() {
                 className="space-x-4"
               >
                 <Link href="/dashboard">
-                <Button className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5">
+                <Button onClick={() => router.push("/dashboard")} className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5">
                   Get Started
                 </Button>
                 </Link>

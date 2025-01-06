@@ -1,10 +1,12 @@
-import React from 'react'
+import { auth } from '@/lib/auth'
+import { redirect } from 'next/navigation'
 
-type Props = {
-    
-}
 
-const Page = async (props: Props) => {
+const Page = async () => {
+  const session = await auth()
+  if(!session || !session.user.id){
+    redirect("/")
+  }
   return (
     <div>page</div>
   )

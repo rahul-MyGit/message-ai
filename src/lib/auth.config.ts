@@ -6,8 +6,9 @@ import prisma from "@/db";
 import { NextAuthConfig } from "next-auth";
 import Google from "next-auth/providers/google";
 
-const publicRoutes = ["/", "/login", "/signup"];
-const authRoutes = ["/dashboard"];
+const publicRoutes = ["/", "/signin", "/signup"];
+const authRoutes = ["/signin", "/signup"];
+const protectRoutes = ["/dashboard"]
 
 export default {
     providers: [
@@ -79,12 +80,20 @@ export default {
             const isLoggedIn = !!auth?.user
             const {pathname} = nextUrl;
 
-            if(publicRoutes.includes(pathname)) return true;
             if(authRoutes.includes(pathname)) {
                 if(isLoggedIn){
                     return Response.redirect(new URL("/", nextUrl));
                 }
                 return true;
+            }
+
+            if(publicRoutes.includes(pathname)) return true;
+
+            if(protectRoutes.includes(pathname) ){
+                if(!isLoggedIn){
+                    return Response.redirect(new URL("/", nextUrl))
+                }
+                return true
             }
 
             return isLoggedIn;
