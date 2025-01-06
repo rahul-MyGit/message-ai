@@ -86,6 +86,10 @@ export async function githubSignInAction(){
     await signIn("github", {redirectTo: "/"});
 }
 
+export async function googleSignInAction() {
+    await signIn("google", {redirectTo: "/"})
+}
+
 export async function userSignOutAction(){
     await signOut({redirectTo: "/signin"});
 }

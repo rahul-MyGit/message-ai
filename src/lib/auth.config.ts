@@ -89,6 +89,18 @@ export default {
 
             return isLoggedIn;
         },
+
+        async jwt({token, user, session}) {
+            if(user){
+                token.id = user.id as string
+            }
+            return token;
+        },
+
+        async session({session,token}){
+            session.user.id = token.id;
+            return session;
+        }
     },
     pages: {
         signIn: "/signin"
