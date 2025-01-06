@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Messgage-AI
 
-## Getting Started
+## Overview
+This application allows users to connect their Instagram and Twitter accounts and create automated triggers for AI-based responses. Users can define keywords that, when mentioned in DMs or comments, will trigger an AI-generated reply within the same conversation. The AI can remember previous conversations, ensuring context-aware responses. Additionally, users can customize AI responses by setting specific prompts.
 
-First, run the development server:
+## Features
+- **Social Media Integration**: Connect Instagram and Twitter accounts.
+- **Keyword-Based Triggers**: AI replies automatically when specific keywords are mentioned in DMs or comments.
+- **Contextual AI Responses**: AI remembers previous conversations for a seamless experience.
+- **Customizable AI Prompts**: Users can define how AI should respond based on pre-set prompts.
+- **Automated Comment Responses**: AI replies to comments containing specific keywords on posts.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tech Stack
+- **Frontend AND Backend**: Next.js (TypeScript)
+- **Authentication**: Authjs (Nextauth v5)
+- **Database**: PostgreSQL
+- **AI Integration**: Geminie (for AI-based responses)
+- **Social Media API**: Instagram Developer API, Twitter Developer API
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/your-repo.git
+   cd your-repo
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+2. Install dependencies:
+   ```sh
+   pnpm install
+   ```
 
-## Learn More
+3. To get auth secret generated automatically:
+   ```sh
+   pnpm dlx auth secret
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+4. Set up environment variables in a `.env` file same as `.env.example`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. Migrate the database:
+   ```sh
+   pnpm dlx prisma migrate dev
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+6. Start the development server:
+   ```sh
+   pnpm dev
+   ```
 
-## Deploy on Vercel
+## Usage
+1. **Connect Social Media**: Authenticate with Instagram and Twitter.
+2. **Set Triggers**: Define keywords and assign them AI responses.
+3. **Engage Automatically**: AI will handle replies to DMs and comments.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
