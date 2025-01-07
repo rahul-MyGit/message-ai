@@ -7,9 +7,9 @@ const Page = async () => {
   if(!session || !session.user.id){
     redirect("/")
   }
-  return (
-    <div>page</div>
-  )
+
+  return redirect(`/dashboard/${session.user.name}${session.user.id}`)
+  
 }
 
 export default Page
