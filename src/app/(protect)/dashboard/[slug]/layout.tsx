@@ -1,4 +1,5 @@
 import React from 'react'
+import Sidebar from "@/components/global/sidebar"
 
 interface LayoutTypes{
     children: React.ReactNode
@@ -11,6 +12,7 @@ const Layout = ({children, params} : LayoutTypes) => {
 
   return (
     <div className='p-4'>
+        <Sidebar slug={params.slug}/>
         {children}
     </div>
   )
