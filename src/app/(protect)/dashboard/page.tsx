@@ -8,7 +8,7 @@ const Page = async () => {
     redirect("/")
   }
 
-  return redirect(`/dashboard/${session.user.name}${session.user.id}`)
+  return redirect(`/dashboard/${session.user.name}`)
   
 }
 

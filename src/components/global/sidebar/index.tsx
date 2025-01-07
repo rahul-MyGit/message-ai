@@ -8,6 +8,7 @@ import Items from './Items'
 import { Separator } from '@/components/ui/separator'
 import { SubscriptionPlan } from './SubscriptionPlan'
 import UpgradeCard from './Upgrade/upgrade'
+import UserName from './userSession/index'
 
 
 type SidebarProps = {
@@ -38,8 +39,8 @@ const index = ({slug} : SidebarProps) => {
             </div>
             <div className='px-3 flex flex-col gap-y-5'>
                 <div className='flex gap-x-2'>
-                    {/* user Image else placeholder*/}
-                    <p className='text-[#9B9A0]'>Profile</p>
+                    <UserName />
+                    <p className='text-[#9B9A0] text-gray-50'>Profile</p>
                 </div>
                 <div className='flex gap-x-3'>
                     <HelpDuoToneWhite />
