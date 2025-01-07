@@ -11,7 +11,7 @@ type ItemsProps = {
 const Items = ({page, slug}: ItemsProps) => {
     return SIDEBAR_MENU.map((items) => (
         <Link 
-            href={`dashboard/${slug}/${items.label === 'home' ? '/' : items.label}`}
+            href={`${slug}/${items.label === 'home' ? '/' : items.label}`}
             key={items.id}
             className={cn(
                 'capitalize flex gap-x-2 rounded-full p-3',

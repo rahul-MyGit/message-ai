@@ -8,12 +8,13 @@ interface LayoutTypes{
 
 const Layout = ({children, params} : LayoutTypes) => {
 
-    //React-Query for state
 
   return (
     <div className='p-4'>
         <Sidebar slug={params.slug}/>
+        <div className='lg:ml-[250px] lg:pl-10 lg:py-5 flex flex-col overflow-auto'>
         {children}
+        </div>
     </div>
   )
 }
