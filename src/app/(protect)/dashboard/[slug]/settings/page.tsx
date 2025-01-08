@@ -1,9 +1,8 @@
+import Billing from '@/components/global/Billing'
 import React from 'react'
 
 const page = () => {
-  return (
-    <div>Settings page</div>
-  )
+  return <Billing />
 }
 
 export default page
