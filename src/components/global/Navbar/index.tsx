@@ -15,6 +15,7 @@ import Icons from "../sidebar/icons/index"
 import Search from './Search'
 import CreateAutomation from './CreateAutomation'
 import MainCrumb from './MainCrumb'
+import Notification from './Notification'
 
 const { HelpDuoToneWhite } = Icons()
 
@@ -63,6 +64,7 @@ const Navbar = ({ slug }: NavbarProps) => {
                     </span>
                     <Search />
                     <CreateAutomation />
+                    <Notification />
                 </div>
                 <MainCrumb page={page === slug ? 'Home' : page} slug={slug} />
             </div>

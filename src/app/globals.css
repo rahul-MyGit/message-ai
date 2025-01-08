@@ -91,10 +91,6 @@
   }
 }
 
-.backdrop--blur__safari {
-  -webkit-backdrop-filter: blur(5px);
-}
-
 /* Firefox */
 * {
   scrollbar-width: thin; /* none | auto  */

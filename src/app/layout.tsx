@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,9 +18,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body suppressHydrationWarning className={inter.className}>
+        <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
         {children}
         <Toaster />
+        </ThemeProvider>
       </body>
     </html>
 
