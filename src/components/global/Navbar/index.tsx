@@ -64,7 +64,7 @@ const Navbar = ({ slug }: NavbarProps) => {
                     <Search />
                     <CreateAutomation />
                 </div>
-                <MainCrumb page={page} slug={slug} />
+                <MainCrumb page={page === slug ? 'Home' : page} slug={slug} />
             </div>
         )
     )
