@@ -1,4 +1,4 @@
-# Messgage-AI
+# Alert-AI
 
 ## Overview
 This application allows users to connect their Instagram and Twitter accounts and create automated triggers for AI-based responses. Users can define keywords that, when mentioned in DMs or comments, will trigger an AI-generated reply within the same conversation. The AI can remember previous conversations, ensuring context-aware responses. Additionally, users can customize AI responses by setting specific prompts.
